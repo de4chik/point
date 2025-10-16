@@ -29,7 +29,7 @@ jobs:
       # 4. Запускаем контейнер
       - name: Run Docker container
         run: |
-          docker-compose up --build
+          docker compose up --build
 
       # 5. Проверяем, что контейнер запущен
       - name: Check running containers
