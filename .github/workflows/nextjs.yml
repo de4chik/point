@@ -1,0 +1,36 @@
+name: duild
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Проверяем код из репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Устанавливаем Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # 3. Собираем Docker-образ
+      - name: Build Docker image
+        run: |
+          docker build -t frontend:latest ./frontend
+
+      # 4. Запускаем контейнер
+      - name: Run Docker container
+        run: |
+          docker-compose up --build
+
+      # 5. Проверяем, что контейнер запущен
+      - name: Check running containers
+        run: docker ps
