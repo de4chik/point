@@ -1,9 +1,19 @@
-FROM oven/bun:1
+FROM oven/bun:1 AS build
 WORKDIR /app
-COPY package*.json ./
+
+COPY package*.json bun.lockb* ./
 RUN bun install
+
 COPY . .
+
+RUN bun run build
+
+FROM oven/bun:1 AS production
+WORKDIR /app
+
+COPY --from=build /app ./
+
 EXPOSE 80
- 
-# Define the command to run your app
-CMD ["bun", "run", "dev"]
+
+# Запуск продакшн сервера
+CMD ["bun", "run", "start"]
