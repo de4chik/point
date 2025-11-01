@@ -10,6 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Set up Node.js
-        run: npm install
+        run: npm ci
       - name: Run linter
         run: npm run lint
