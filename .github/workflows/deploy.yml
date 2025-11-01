@@ -1,0 +1,15 @@
+name: Check
+on:
+  push:
+    branches:
+      - main
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        run: npm install
+      - name: Run linter
+        run: npm run lint
