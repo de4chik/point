@@ -7,20 +7,27 @@ import {
     Param,
     Post,
     Req,
+    UseGuards,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import type { Request } from "express";
+import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("user")
 export class UserController {
     constructor(private readonly userService: UserService) {}
 
+    @ApiBearerAuth()
     @Get("all")
+    @UseGuards(AuthGuard("jwt"))
     async getAllUsers() {
         return await this.userService.findAllUsers();
     }
 
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard("jwt"))
     @Get("by-email/:email")
     async getUserByEmail(@Param("email") email: string) {
         const findUser = await this.userService.findUserByEmail(email);
@@ -44,6 +51,8 @@ export class UserController {
         return `create user with data: ${JSON.stringify(user)}`;
     }
 
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard("jwt"))
     @Delete("delete")
     deleteUser(@Req() req: Request) {
         const token = req.headers.authorization;
