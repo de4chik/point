@@ -23,7 +23,9 @@ export class AuthService {
             registerUserDto.email,
         );
         if (findUser) {
-            throw new ConflictException("Пользователь уже зарегестрирован");
+            throw new ConflictException(
+                "Пользователь с таким email уже зарегестрирован",
+            );
         }
         const hashedPassword = this.hashPassword(registerUserDto.password);
         const newUser = await this.userService

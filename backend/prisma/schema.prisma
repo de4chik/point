@@ -17,7 +17,7 @@ model User {
   role      Role       @default(USER)
   templates Template[]
   likes     Like[]
-  token    Token?
+  token     Token?
   // 
   createdAt DateTime   @default(now()) @map("created_at")
   updatedAt DateTime   @updatedAt @map("updated_at")
@@ -46,16 +46,15 @@ enum Role {
 }
 
 model Template {
-  id     String   @id @default(uuid())
+  id        String   @id @default(uuid())
   // 
-  name   String
-  files  String[]
-  format Format
-  // 
-  user   User     @relation(fields: [userId], references: [id])
-  userId String
-  likes  Like[]
-
+  name      String
+  files     String[]
+  format    Format   @relation(fields: [formatId], references: [id])
+  formatId  String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  likes     Like[]
   // 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -64,10 +63,17 @@ model Template {
   @@map("templates")
 }
 
-enum Format {
-  REACT
-  VUE
-  ANGULAR
+model Format {
+  id        String     @id @default(uuid())
+  // 
+  name      String     @unique
+  templates Template[]
+  // 
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  // 
+  @@map("formats")
 }
 
 model Like {
