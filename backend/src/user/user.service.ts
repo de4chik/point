@@ -1,6 +1,11 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+    BadRequestException,
+    ConflictException,
+    Injectable,
+} from "@nestjs/common";
 import { User } from "generated/prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
+import { CreateUserDto } from "./dto/create-user.dto";
 
 @Injectable()
 export class UserService {
@@ -36,6 +41,13 @@ export class UserService {
                     "Не удалось получить пользователя по id",
                 );
             });
+    }
+
+    async createUser(user: CreateUserDto) {
+        if (!user) {
+            throw new ConflictException("Нужны данные пользователя");
+        }
+        return await this.prismaService.user.create({ data: user });
     }
 
     async deleteUserById(id: string): Promise<User> {

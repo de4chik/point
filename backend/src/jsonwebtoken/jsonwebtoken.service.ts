@@ -14,14 +14,8 @@ export class JsonwebtokenService {
     ) {}
 
     generateTokens(id: string) {
-        const accessToken = this.jwtService.signAsync(
-            { id },
-            { expiresIn: "15m" },
-        );
-        const refreshToken = this.jwtService.signAsync(
-            { id },
-            { expiresIn: "30m" },
-        );
+        const accessToken = this.jwtService.sign({ id }, { expiresIn: "15m" });
+        const refreshToken = this.jwtService.sign({ id }, { expiresIn: "30m" });
         return { accessToken, refreshToken };
     }
 
@@ -29,9 +23,13 @@ export class JsonwebtokenService {
         if (!refreshToken || !userId) {
             throw new BadRequestException();
         }
-        const findToken = await this.prismaServce.token.findUnique({
-            where: { userId },
-        });
+        const findToken = await this.prismaServce.token
+            .findUnique({
+                where: { userId },
+            })
+            .catch(() => {
+                throw new BadRequestException("что-то пошло не так!");
+            });
         if (findToken) {
             return await this.prismaServce.token
                 .update({
@@ -46,8 +44,27 @@ export class JsonwebtokenService {
             .create({
                 data: { token: refreshToken, userId },
             })
-            .catch(() => {
-                throw new ConflictException("Ошибка при добовлении");
+            .catch((err) => {
+                console.log(err);
+
+                throw new ConflictException("Ошибка при обновлении");
+            });
+    }
+
+    verify(token: string) {
+        return this.jwtService.verify(token) as unknown;
+    }
+
+    async findToken(token: string) {
+        return await this.prismaServce.token.findUnique({ where: { token } });
+    }
+
+    async delete(userId: string) {
+        return await this.prismaServce.token
+            .delete({ where: { userId } })
+            .catch((err) => {
+                console.log(err);
+                throw new ConflictException("Что-то пошло не так!");
             });
     }
 }

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { Module } from "@nestjs/common";
 import { JsonwebtokenService } from "./jsonwebtoken.service";
 import { JwtModule } from "@nestjs/jwt";
