@@ -127,7 +127,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 font-medium;
+    @apply border-border outline-ring/50 font-medium text-sm;
   }
   body {
     @apply bg-background text-foreground;

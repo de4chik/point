@@ -14,7 +14,7 @@
   "aliases": {
     "components": "@/shared",
     "utils": "@/root/utils",
-    "ui": "@/shared",
+    "ui": "@/shared/ui",
     "lib": "@/utils/lib",
     "hooks": "@/shared/hooks"
   },

@@ -1,8 +1,8 @@
 import { UserAvatar } from "@features/userAvatar";
 import { LINKS } from "@constants/link.constant";
-import { Button } from "@shared/button";
-import { Container } from "@shared/conatiner";
-import { Bell, Plus } from "lucide-react";
+import { Button } from "@/shared/ui/button";
+import { Container } from "@/shared/ui/conatiner";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 
 const Header: React.FC = () => {
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
           </nav>
         </div>
         <div className="flex items-center gap-1">
-          <Button size={"icon"} variant={"ghost"} >
+          <Button size={"icon"} variant={"ghost"}>
             <Plus />
             <span>Create</span>
           </Button>
