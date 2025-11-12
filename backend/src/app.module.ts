@@ -5,14 +5,19 @@ import { UserModule } from "./user/user.module";
 import { AuthModule } from "./auth/auth.module";
 import { JsonwebtokenModule } from "./jsonwebtoken/jsonwebtoken.module";
 import { FormatModule } from "./format/format.module";
-import { TemplateModule } from './template/template.module';
-import { FileModule } from './file/file.module';
+import { TemplateModule } from "./template/template.module";
+import { FileModule } from "./file/file.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
-            envFilePath: ".env.development",
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, "..", "..", "uploads"),
+            serveRoot: "/uploads",
         }),
         PrismaModule,
         UserModule,

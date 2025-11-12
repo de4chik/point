@@ -6,7 +6,6 @@ import {
 import { CreateTemplateDto } from "./dto/create-template.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 import { FormatService } from "src/format/format.service";
-import { UserService } from "src/user/user.service";
 import type { Request } from "express";
 import { PrismaClientValidationError } from "generated/prisma/internal/prismaNamespace";
 
@@ -15,7 +14,6 @@ export class TemplateService {
     constructor(
         private readonly prismaService: PrismaService,
         private readonly formatService: FormatService,
-        private readonly userService: UserService,
     ) {}
     async createTemplate(createTemplateDto: CreateTemplateDto, req: Request) {
         const findFormat = await this.formatService.findById(

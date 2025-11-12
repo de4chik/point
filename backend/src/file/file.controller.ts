@@ -1,20 +1,52 @@
 import {
     Controller,
     Post,
-    UploadedFile,
+    UploadedFiles,
     UseInterceptors,
 } from "@nestjs/common";
 import { FileService } from "./file.service";
-import type { Express } from "express";
-import { FileInterceptor } from "@nestjs/platform-express";
+import { FilesInterceptor } from "@nestjs/platform-express";
+import { ApiBody, ApiConsumes } from "@nestjs/swagger";
+import { diskStorage } from "multer";
+import { basename, extname, join } from "path";
+import uuid from "uuid";
 
-@Controller("file")
+@Controller("files")
 export class FileController {
     constructor(private readonly fileService: FileService) {}
 
     @Post("upload")
-    @UseInterceptors(FileInterceptor("file"))
-    uploadFile(@UploadedFile() file: Express.Multer.File) {
-        console.log(file);
+    @UseInterceptors(
+        FilesInterceptor("files", 10, {
+            storage: diskStorage({
+                destination: join(process.cwd(), "uploads"),
+                filename: (req, file, cb) => {
+                    const originalName = file.originalname;
+                    const ext = extname(originalName);
+                    const nameWithoutExt = basename(originalName, ext);
+
+                    const uniqueName = nameWithoutExt + "-" + uuid.v4();
+                    cb(null, `${uniqueName}${ext}`);
+                },
+            }),
+        }),
+    )
+    @ApiConsumes("multipart/form-data")
+    @ApiBody({
+        schema: {
+            type: "object",
+            properties: {
+                files: {
+                    type: "array",
+                    items: {
+                        type: "string",
+                        format: "binary",
+                    },
+                },
+            },
+        },
+    })
+    uploadFile(@UploadedFiles() files: Express.Multer.File[]) {
+        return this.fileService.upload(files);
     }
 }
