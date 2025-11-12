@@ -23,14 +23,14 @@ export class UserController {
     @Get("all")
     @UseGuards(AuthGuard("jwt"))
     async getAllUsers() {
-        return await this.userService.findAllUsers();
+        return await this.userService.findAll();
     }
 
     @ApiBearerAuth()
     @UseGuards(AuthGuard("jwt"))
     @Get("by-email/:email")
     async getUserByEmail(@Param("email") email: string) {
-        const findUser = await this.userService.findUserByEmail(email);
+        const findUser = await this.userService.findByEmail(email);
         if (!findUser) {
             throw new NotFoundException("Пользователь с таким email не найден");
         }
@@ -39,7 +39,7 @@ export class UserController {
 
     @Get("by-id/:id")
     async getUserById(@Param("id") id: string) {
-        const findUser = await this.userService.findUserById(id);
+        const findUser = await this.userService.findById(id);
         if (!findUser) {
             throw new NotFoundException("Пользователь с таким id не найден");
         }

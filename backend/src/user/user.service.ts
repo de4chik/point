@@ -11,13 +11,13 @@ import { CreateUserDto } from "./dto/create-user.dto";
 export class UserService {
     constructor(private readonly prismaService: PrismaService) {}
 
-    async findAllUsers() {
+    async findAll() {
         return await this.prismaService.user.findMany().catch(() => {
             throw new BadRequestException("Не удалось получить пользователей");
         });
     }
 
-    async findUserByEmail(email: string) {
+    async findByEmail(email: string) {
         if (!email) {
             throw new BadRequestException("Нет email");
         }
@@ -30,7 +30,7 @@ export class UserService {
             });
     }
 
-    async findUserById(id: string) {
+    async findById(id: string) {
         if (!id) {
             throw new BadRequestException("Нет id");
         }
@@ -43,14 +43,14 @@ export class UserService {
             });
     }
 
-    async createUser(user: CreateUserDto) {
+    async create(user: CreateUserDto) {
         if (!user) {
             throw new ConflictException("Нужны данные пользователя");
         }
         return await this.prismaService.user.create({ data: user });
     }
 
-    async deleteUserById(id: string): Promise<User> {
+    async deleteById(id: string): Promise<User> {
         return await this.prismaService.user
             .delete({ where: { id } })
             .catch(() => {

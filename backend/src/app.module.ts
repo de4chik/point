@@ -6,6 +6,7 @@ import { AuthModule } from "./auth/auth.module";
 import { JsonwebtokenModule } from "./jsonwebtoken/jsonwebtoken.module";
 import { FormatModule } from "./format/format.module";
 import { TemplateModule } from './template/template.module';
+import { FileModule } from './file/file.module';
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { TemplateModule } from './template/template.module';
         JsonwebtokenModule,
         FormatModule,
         TemplateModule,
+        FileModule,
     ],
 })
 export class AppModule {}

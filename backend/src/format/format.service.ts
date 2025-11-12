@@ -32,6 +32,14 @@ export class FormatService {
             });
     }
 
+    async findById(id: string) {
+        return await this.prismaService.format
+            .findUnique({ where: { id } })
+            .catch((err) => {
+                throw new ConflictException("Что-то пошло не так!");
+            });
+    }
+
     async update(id: string, updateFormatDto: UpdateFormatDto) {
         return await this.prismaService.format
             .update({ where: { id }, data: updateFormatDto })

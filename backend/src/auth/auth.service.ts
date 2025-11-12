@@ -19,7 +19,7 @@ export class AuthService {
     ) {}
 
     async register(registerUserDto: RegisterUserDto, res: Response) {
-        const findUser = await this.userService.findUserByEmail(
+        const findUser = await this.userService.findByEmail(
             registerUserDto.email,
         );
         if (findUser) {
@@ -29,7 +29,7 @@ export class AuthService {
         }
         const hashedPassword = this.hashPassword(registerUserDto.password);
         const newUser = await this.userService
-            .createUser({
+            .create({
                 ...registerUserDto,
                 password: hashedPassword,
             })
@@ -53,7 +53,7 @@ export class AuthService {
 
     async login(loginUserDto: LoginUserDto, res: Response) {
         const findUser = await this.userService
-            .findUserByEmail(loginUserDto.email)
+            .findByEmail(loginUserDto.email)
             .catch(() => {
                 throw new ConflictException("что-то пошло не так!");
             });
@@ -87,7 +87,7 @@ export class AuthService {
             throw new UnauthorizedException("Пользоваиель не авторизован");
         }
         const { id } = this.jwtService.verify(refreshToken) as { id: string };
-        const findUser = await this.userService.findUserById(id);
+        const findUser = await this.userService.findById(id);
         if (!findUser) {
             throw new UnauthorizedException("Пользоваиель не авторизован");
         }
@@ -114,7 +114,7 @@ export class AuthService {
             throw new UnauthorizedException("Пользоваиель не авторизован");
         }
         const { id } = this.jwtService.verify(refreshToken) as { id: string };
-        const findUser = await this.userService.findUserById(id);
+        const findUser = await this.userService.findById(id);
         if (!findUser) {
             throw new UnauthorizedException("Пользоваиель не авторизован");
         }
