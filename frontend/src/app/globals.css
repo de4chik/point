@@ -41,6 +41,19 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* CUSTOM STYLE */
+  --color-gray: rgba(26, 26, 26, 0.1);
+  --color-accent: rgba(255, 107, 53, 1);
+  --color-accent-ghost: rgba(255, 107, 53, 0.2);
+  --golor-black: rgba(26, 26, 26, 1);
+
+  --padding-button-default: 14px 20px;
+  --padding-button-small: 12 16px;
+  --padding-button-icon: 14px;
+
+  --radius-default: 14px;
+  --radius-small: 10px;
 }
 
 :root {
@@ -114,7 +127,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 font-medium;
   }
   body {
     @apply bg-background text-foreground;
