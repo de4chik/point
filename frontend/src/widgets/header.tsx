@@ -2,8 +2,9 @@ import { UserAvatar } from "@features/userAvatar";
 import { LINKS } from "@constants/link.constant";
 import { Button } from "@/shared/ui/button";
 import { Container } from "@/shared/ui/conatiner";
-import { Plus } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import Link from "next/link";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui/tooltip";
 
 const Header: React.FC = () => {
   return (
@@ -24,11 +25,22 @@ const Header: React.FC = () => {
           </nav>
         </div>
         <div className="flex items-center gap-1">
-          <Button size={"icon"} variant={"ghost"}>
-            <Plus />
-            <span>Create</span>
-          </Button>
-
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size={"icon"} variant={"ghost"} className="rounded-full">
+                <Search />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>search</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button size={"icon"} variant={"ghost"} className="rounded-full">
+                <Plus />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>create</TooltipContent>
+          </Tooltip>
           <UserAvatar username="Evir" />
         </div>
       </Container>

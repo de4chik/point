@@ -12,7 +12,6 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe());
     app.setGlobalPrefix(`api/v${process.env.VERSION}`);
     app.use(cookieParser());
-
     SwaggerModule.setup("swagger", app, documentFactory(app));
 
     await app.listen(process.env.PORT);
