@@ -46,9 +46,18 @@ export class UserController {
         return findUser;
     }
 
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard("jwt"))
+    @Get("profile")
+    getUserProfile(@Req() req: Request) {
+        const { id } = req.user as { id: string };
+
+        return this.userService.findById(id);
+    }
+
     @Post("create")
-    createUser(@Body() user: CreateUserDto) {
-        return `create user with data: ${JSON.stringify(user)}`;
+    createUser(@Body() createUserDto: CreateUserDto) {
+        return this.userService.create(createUserDto);
     }
 
     @ApiBearerAuth()
