@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
@@ -11,6 +12,7 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe());
     app.setGlobalPrefix(`api/v${process.env.VERSION}`);
+    app.enableCors({ origin: process.env.CLIENT_URL });
     app.use(cookieParser());
     SwaggerModule.setup("swagger", app, documentFactory(app));
 

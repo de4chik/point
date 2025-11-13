@@ -1,7 +1,11 @@
+'use client'
+import { useGetProfileUser } from "@/shared/api/user";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const HomePage = () => {
+  const { data } = useGetProfileUser();
+
   return (
     <main className="flex-1 flex justify-center items-center flex-col gap-2">
       <h1 className="text-9xl font-black">POINT</h1>

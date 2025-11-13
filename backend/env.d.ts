@@ -6,6 +6,7 @@ declare global {
             JWT_SECRET: string;
             SERVER_URL: string;
             SERVER_STATIC_URL: string;
+            CLIENT_URL: string;
         }
     }
 }
