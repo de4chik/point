@@ -72,17 +72,19 @@ export class AuthService {
 
         const { password, ...sendUser } = findUser;
 
-        res.cookie("refreshToken", tokens.refreshToken, {
-            httpOnly: true,
-            maxAge: 30 * 24 * 60 * 60 * 1000,
-        });
         return res
+            .cookie("refreshToken", tokens.refreshToken, {
+                httpOnly: true,
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+            })
             .status(HttpStatus.OK)
             .json({ user: sendUser, accessToken: tokens.accessToken });
     }
 
     async refresh(req: Request, res: Response) {
         const { refreshToken } = req.cookies as { refreshToken: string };
+        console.log(refreshToken);
+
         if (!refreshToken) {
             throw new UnauthorizedException("Пользоваиель не авторизован");
         }
@@ -94,11 +96,11 @@ export class AuthService {
         const tokens = this.jwtService.generateTokens(id);
         await this.jwtService.createOrUpdate(tokens.refreshToken, id);
 
-        res.cookie("refreshToken", tokens.refreshToken, {
-            httpOnly: true,
-            maxAge: 30 * 24 * 60 * 60 * 1000,
-        });
         return res
+            .cookie("refreshToken", tokens.refreshToken, {
+                httpOnly: true,
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+            })
             .status(HttpStatus.OK)
             .json({ accessToken: tokens.accessToken });
     }

@@ -4,8 +4,8 @@ export const LINKS = [
     href: "/",
   },
   {
-    name: "template",
-    href: "/template",
+    name: "templates",
+    href: "/templates",
   },
   {
     name: "blog",

@@ -2,7 +2,13 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const $api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  withCredentials: true,
 });
+
+export interface IApiError {
+  message: string;
+  statusCode: number;
+}
 
 $api.interceptors.request.use(
   (config) => {
@@ -27,13 +33,15 @@ $api.interceptors.response.use(
     if (err.response?.status === 401 && !originalRequest._isRetry) {
       originalRequest._isRetry = true;
       return axios
-        .get("http://localhost:5000/api/v1/auth/refresh")
+        .get("http://localhost:5000/api/v1/auth/refresh", {
+          withCredentials: true,
+        })
         .then(({ data }) => {
           localStorage.setItem("accessToken", data.accessToken);
         })
         .catch((err) => err);
     }
-    throw new Error();
+    return Promise.reject(err);
   }
 );
 

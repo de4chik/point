@@ -12,7 +12,7 @@ async function bootstrap() {
 
     app.useGlobalPipes(new ValidationPipe());
     app.setGlobalPrefix(`api/v${process.env.VERSION}`);
-    app.enableCors({ origin: process.env.CLIENT_URL });
+    app.enableCors({ origin: process.env.CLIENT_URL, credentials: true });
     app.use(cookieParser());
     SwaggerModule.setup("swagger", app, documentFactory(app));
 
