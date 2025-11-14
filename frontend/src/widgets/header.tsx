@@ -16,7 +16,9 @@ const Header: React.FC = () => {
     <header className="border-b ">
       <Container className="py-2.5 border-x flex items-center justify-between">
         <div className="flex items-center gap-10">
-          <span className="text-2xl font-bold uppercase">Point</span>
+          <Link href={"/"} className="text-2xl font-bold uppercase">
+            Point
+          </Link>
           <nav className="flex gap-5 text-sm items-center">
             {LINKS.map(({ name, href }) => (
               <Link

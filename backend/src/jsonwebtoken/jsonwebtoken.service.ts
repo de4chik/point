@@ -16,7 +16,7 @@ export class JsonwebtokenService {
 
     generateTokens(id: string) {
         const accessToken = this.jwtService.sign({ id }, { expiresIn: "15m" });
-        const refreshToken = this.jwtService.sign({ id }, { expiresIn: "30m" });
+        const refreshToken = this.jwtService.sign({ id }, { expiresIn: "30d" });
         return { accessToken, refreshToken };
     }
 
