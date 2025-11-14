@@ -10,6 +10,7 @@ import bcrypt from "bcrypt";
 import { UserService } from "src/user/user.service";
 import { JsonwebtokenService } from "src/jsonwebtoken/jsonwebtoken.service";
 import { LoginUserDto } from "./dto/login-user.dto";
+import { JsonWebTokenError } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
@@ -83,26 +84,38 @@ export class AuthService {
 
     async refresh(req: Request, res: Response) {
         const { refreshToken } = req.cookies as { refreshToken: string };
-        console.log(refreshToken);
-
         if (!refreshToken) {
             throw new UnauthorizedException("Пользоваиель не авторизован");
         }
-        const { id } = this.jwtService.verify(refreshToken) as { id: string };
-        const findUser = await this.userService.findById(id);
-        if (!findUser) {
-            throw new UnauthorizedException("Пользоваиель не авторизован");
-        }
-        const tokens = this.jwtService.generateTokens(id);
-        await this.jwtService.createOrUpdate(tokens.refreshToken, id);
 
-        return res
-            .cookie("refreshToken", tokens.refreshToken, {
-                httpOnly: true,
-                maxAge: 30 * 24 * 60 * 60 * 1000,
-            })
-            .status(HttpStatus.OK)
-            .json({ accessToken: tokens.accessToken });
+        try {
+            const payload = this.jwtService.verify(refreshToken) as {
+                id: string;
+            };
+            const findUser = await this.userService.findById(payload.id);
+            if (!findUser) {
+                throw new UnauthorizedException("Пользоваиель не авторизован");
+            }
+            const tokens = this.jwtService.generateTokens(payload.id);
+            await this.jwtService.createOrUpdate(
+                tokens.refreshToken,
+                payload.id,
+            );
+
+            return res
+                .cookie("refreshToken", tokens.refreshToken, {
+                    httpOnly: true,
+                    maxAge: 30 * 24 * 60 * 60 * 1000,
+                })
+                .status(HttpStatus.OK)
+                .json({ accessToken: tokens.accessToken });
+        } catch (error) {
+            const jwtError = error as JsonWebTokenError;
+            if (jwtError.message === "jwt expired") {
+                res.clearCookie("refreshToken");
+                throw new UnauthorizedException("Пользователь не авторизован");
+            }
+        }
     }
 
     async logout(req: Request, res: Response) {

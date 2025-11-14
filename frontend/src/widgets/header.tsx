@@ -43,18 +43,20 @@ const Header: React.FC = () => {
             <>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                    size={"icon"}
-                    variant={"ghost"}
-                    className="rounded-full"
-                  >
-                    <Plus />
-                  </Button>
+                  <Link href={"/templates/create"}>
+                    <Button
+                      size={"icon"}
+                      variant={"ghost"}
+                      className="rounded-full"
+                    >
+                      <Plus />
+                    </Button>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent>create</TooltipContent>
               </Tooltip>
               <Tooltip>
-                <TooltipTrigger >
+                <TooltipTrigger>
                   <UserAvatar username="Evir" />
                 </TooltipTrigger>
                 <TooltipContent>Profile</TooltipContent>

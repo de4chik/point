@@ -2,8 +2,9 @@ import {
     BadRequestException,
     ConflictException,
     Injectable,
+    UnauthorizedException,
 } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
+import { JsonWebTokenError, JwtService } from "@nestjs/jwt";
 import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
@@ -52,7 +53,7 @@ export class JsonwebtokenService {
     }
 
     verify(token: string) {
-        return this.jwtService.verify(token) as unknown;
+        return this.jwtService.verify(token);
     }
 
     async findToken(token: string) {

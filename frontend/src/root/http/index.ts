@@ -1,4 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { toast } from "sonner";
+import { Cookies } from "react-cookie";
 
 const $api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -39,8 +41,18 @@ $api.interceptors.response.use(
         .then(({ data }) => {
           localStorage.setItem("accessToken", data.accessToken);
         })
-        .catch((err) => err);
+        .catch((err: AxiosError<{ statusCode: number }>) => {
+          if (err.response?.data.statusCode === 500) {
+            toast.error("unknown error");
+          }
+          if (err.response?.data.statusCode === 401) {
+            localStorage.removeItem("accessToken");
+            new Cookies().remove("refreshToken");
+          }
+          return err;
+        });
     }
+
     return Promise.reject(err);
   }
 );
