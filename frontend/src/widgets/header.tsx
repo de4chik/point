@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const { data: user, isLoading: loadingUser } = useGetProfileUser();
 
   return (
-    <header className="border-b ">
+    <header className="border-b">
       <Container className="py-2.5 border-x flex items-center justify-between">
         <div className="flex items-center gap-10">
           <Link href={"/"} className="text-2xl font-bold uppercase">
@@ -45,7 +45,7 @@ const Header: React.FC = () => {
             <>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link href={"/templates/create"}>
+                  <Link href={"/templates/format"}>
                     <Button
                       size={"icon"}
                       variant={"ghost"}

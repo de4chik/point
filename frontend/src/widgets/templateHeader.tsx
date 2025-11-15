@@ -10,15 +10,17 @@ const TemplateHeader: React.FC = () => {
 
   return (
     <header>
-      <Container className="max-w-full py-2.5 grid grid-cols-3">
+      <Container className="max-w-full py-1 grid grid-cols-3 items-center">
         <Link href={"/"} className="text-2xl font-bold uppercase">
           Point
         </Link>
         <div className="place-self-center">
+          <span>name: </span>
           <span
             contentEditable
             suppressContentEditableWarning
             onInput={(e) => setValue(e.currentTarget.innerText)}
+            className="bg-gray p-1 rounded-sm"
           >
             unknown
           </span>

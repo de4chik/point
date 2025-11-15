@@ -1,0 +1,28 @@
+import { SandpackPredefinedTemplate } from "@codesandbox/sandpack-react";
+
+export const FORMATS = [
+  "angular",
+  "astro",
+  "nextjs",
+  "node",
+  "node",
+  "react",
+  "react-ts",
+  "solid",
+  "static",
+  "svelte",
+  "test-ts",
+  "vanilla",
+  "vanilla-ts",
+  "vite",
+  "vite-preact",
+  "vite-preact-ts",
+  "vite-react",
+  "vite-react-ts",
+  "vite-svelte",
+  "vite-svelte-ts",
+  "vite-vue",
+  "vite-vue-ts",
+  "vue",
+  "vue-ts",
+] as SandpackPredefinedTemplate[];
