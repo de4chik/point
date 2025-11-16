@@ -1,12 +1,17 @@
 "use client";
+import { useCreateTemplate } from "@/shared/api/template";
+import { useTemplate } from "@/shared/store/template.store";
 import { Button } from "@/shared/ui/button";
 import { Container } from "@/shared/ui/conatiner";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 const TemplateHeader: React.FC = () => {
   const [value, setValue] = useState("unknown");
-//   console.log(value);
+  const { format } = useParams() as { format: string };
+  const { template } = useTemplate();
+  const { mutate: createTemplate } = useCreateTemplate();
 
   return (
     <header>
@@ -19,14 +24,27 @@ const TemplateHeader: React.FC = () => {
           <span
             contentEditable
             suppressContentEditableWarning
-            onInput={(e) => setValue(e.currentTarget.innerText)}
+            onInput={(e) => {
+              setValue(e.currentTarget.innerText);
+            }}
             className="bg-gray p-1 rounded-sm"
           >
             unknown
           </span>
         </div>
         <span className="place-self-end">
-          <Button variant={"ghost"}>Public</Button>
+          <Button
+            onClick={() =>
+              createTemplate({
+                files: template.files,
+                formatName: format,
+                name: value,
+              })
+            }
+            variant={"ghost"}
+          >
+            Public
+          </Button>
         </span>
       </Container>
     </header>

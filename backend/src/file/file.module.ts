@@ -7,5 +7,6 @@ import { join } from "path";
 @Module({
     controllers: [FileController],
     providers: [FileService],
+    exports: [FileService],
 })
 export class FileModule {}

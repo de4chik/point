@@ -1,6 +1,4 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import type { Express } from "express";
-import { resolve } from "path";
 
 @Injectable()
 export class FileService {
