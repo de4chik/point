@@ -6,7 +6,6 @@ import { AuthModule } from "./auth/auth.module";
 import { JsonwebtokenModule } from "./jsonwebtoken/jsonwebtoken.module";
 import { FormatModule } from "./format/format.module";
 import { TemplateModule } from "./template/template.module";
-import { FileModule } from "./file/file.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 
@@ -25,7 +24,6 @@ import { join } from "path";
         JsonwebtokenModule,
         FormatModule,
         TemplateModule,
-        FileModule,
     ],
 })
 export class AppModule {}

@@ -1,9 +1,12 @@
+"use client";
 import { Container } from "@/shared/ui/conatiner";
 
 const Templates = () => {
+  // const { data: templates, isLoading: loadingTemplate } = useGetAllTemplates();
+
   return (
     <main className="flex-1">
-      <Container>templates content</Container>
+      <Container></Container>
     </main>
   );
 };

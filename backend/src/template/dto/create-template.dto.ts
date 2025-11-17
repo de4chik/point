@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, MinLength } from "class-validator";
+import { IsArray, IsJSON, IsString, MinLength } from "class-validator";
 
 export class CreateTemplateDto {
     @ApiProperty()
@@ -7,10 +7,9 @@ export class CreateTemplateDto {
     @MinLength(2, { message: "Минимум 2 символа" })
     name: string;
 
-    // @ApiProperty({ type: [String] })
-    // @IsString({ each: true, message: "Каждый элемент должен быть строкой" })
-    // @IsArray({ message: "Должен быть массивом" })
-    // files: string[];
+    @ApiProperty({ type: String })
+    @IsJSON({ each: true, message: "Каждый элемент должен быть JSON" })
+    files: string;
 
     @IsString({ message: "Требуется формат!" })
     @ApiProperty()

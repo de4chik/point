@@ -2,6 +2,7 @@
 import { Editor } from "@/features/editor";
 import { SearchFolder } from "@/features/searchFolder";
 import { FORMATS } from "@/root/constants/format.constant";
+import { useTemplate } from "@/shared/store/template.store";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -17,6 +18,7 @@ import {
 import { notFound, useParams } from "next/navigation";
 const Create = () => {
   const params = useParams() as { format: SandpackPredefinedTemplate };
+
   if (!FORMATS.includes(params.format)) {
     return notFound();
   }

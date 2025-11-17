@@ -8,23 +8,15 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { FormatService } from "src/format/format.service";
 import type { Request } from "express";
 import { PrismaClientValidationError } from "generated/prisma/internal/prismaNamespace";
-import { FileService } from "src/file/file.service";
 
 @Injectable()
 export class TemplateService {
     constructor(
         private readonly prismaService: PrismaService,
         private readonly formatService: FormatService,
-        private readonly fileService: FileService,
     ) {}
-    async createTemplate(
-        createTemplateDto: CreateTemplateDto,
-        req: Request,
-        files: Express.Multer.File[],
-    ) {
+    async createTemplate(createTemplateDto: CreateTemplateDto, req: Request) {
         console.log(createTemplateDto);
-
-        const filesUrl = this.fileService.upload(files);
 
         const findFormat = await this.formatService.findByName(
             createTemplateDto.formatName,
@@ -37,12 +29,15 @@ export class TemplateService {
                 data: {
                     ...createTemplateDto,
                     userId: req.user.id,
-                    files: filesUrl,
                 },
             })
             .catch((err: PrismaClientValidationError) => {
                 console.log(err.name);
                 throw new ConflictException("Что-то пошло не так!");
             });
+    }
+
+    async findAll() {
+        return this.prismaService.template.findMany();
     }
 }
